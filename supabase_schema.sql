@@ -62,6 +62,19 @@ CREATE TABLE IF NOT EXISTS public.audit_logs (
     details TEXT
 );
 
+-- 4. Table: system_settings (إعدادات المنظومة والرموز السرية للإدارة المركزية)
+CREATE TABLE IF NOT EXISTS public.system_settings (
+    key TEXT PRIMARY KEY,
+    value JSONB NOT NULL,
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Seed master security configuration with secret PIN 6669
+INSERT INTO public.system_settings (key, value)
+VALUES ('admin_security', '{"system_reset_pin": "6669", "updated_by": "إدارة المدار"}'::jsonb)
+ON CONFLICT (key) DO UPDATE
+SET value = '{"system_reset_pin": "6669", "updated_by": "إدارة المدار"}'::jsonb;
+
 -- ==============================================================================
 -- Row Level Security (RLS) Policies
 -- ==============================================================================
@@ -70,11 +83,19 @@ CREATE TABLE IF NOT EXISTS public.audit_logs (
 ALTER TABLE public.tenants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.system_settings ENABLE ROW LEVEL SECURITY;
 
 -- Drop existing policies if re-running
 DROP POLICY IF EXISTS "Allow public read/write tenants" ON public.tenants;
 DROP POLICY IF EXISTS "Allow public read/write invoices" ON public.invoices;
 DROP POLICY IF EXISTS "Allow public read/write audit_logs" ON public.audit_logs;
+DROP POLICY IF EXISTS "Allow public read system_settings" ON public.system_settings;
+
+CREATE POLICY "Allow public read system_settings"
+ON public.system_settings
+FOR SELECT
+TO anon, authenticated
+USING (true);
 
 -- Policies for tenants
 CREATE POLICY "Allow public read/write tenants"

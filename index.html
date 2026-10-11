@@ -78,6 +78,11 @@
           <i class="fa-solid fa-shield-halved"></i>
           <span>سجل الرقابة والعمليات</span>
         </a>
+
+        <a class="nav-link" data-view="settings">
+          <i class="fa-solid fa-gear"></i>
+          <span>إعدادات المنظومة</span>
+        </a>
       </nav>
 
       <!-- Footer / Company Attribution -->
@@ -119,10 +124,6 @@
           </div>
 
           <!-- Quick Action Buttons -->
-          <button class="btn btn-secondary btn-sm" onclick="App.clearAllData()" title="تصفير وحذف كافة البيانات وإعادة الضبط">
-            <i class="fa-solid fa-rotate-left"></i>
-            تصفير النظام
-          </button>
           <button class="btn btn-primary btn-sm" onclick="App.openAddTenantModal()">
             <i class="fa-solid fa-plus"></i>
             إضافة مطعم
@@ -522,6 +523,60 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" onclick="App.closeAllModals()">إلغاء</button>
           <button type="submit" class="btn btn-primary">حفظ الوجبة في المنيو</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 6: PROTECTED SYSTEM RESET (الرمز السري المركزي 6669)
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-hard-reset">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header" style="background: #FEF2F2; border-bottom: 1px solid #FEE2E2;">
+        <h3 style="color: #991B1B;">
+          <i class="fa-solid fa-triangle-exclamation" style="color: #DC2626; margin-left: 8px;"></i>
+          تأكيد تصفير المنظومة بالرمز السري
+        </h3>
+        <button class="modal-close-btn" onclick="App.closeAllModals()">&times;</button>
+      </div>
+      <form onsubmit="App.submitProtectedClearAllData(event)">
+        <div class="modal-body" style="padding: 20px;">
+          <div style="background: #FEF2F2; padding: 14px; border-radius: var(--radius-md); border: 1px solid #FCA5A5; margin-bottom: 16px;">
+            <p style="font-size: 13px; color: #991B1B; font-weight: 700; margin-bottom: 6px;">
+              تحذير أمني شديد الخطورة:
+            </p>
+            <p style="font-size: 12px; color: #7F1D1D; line-height: 1.6; margin: 0;">
+              هذا الإجراء سيقوم بحذف كافة المطاعم المسجلة، الفواتير، وسجل الرقابة، وإعادة المنظومة لحالة الصفر التام. هذه العملية غير قابلة للتراجع وتتطلب الرمز السري للإدارة المركزية المسجل بقاعدة البيانات.
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" style="font-weight: 800; color: var(--navy);">
+              أدخل الرمز السري للإدارة المركزية:
+            </label>
+            <div style="position: relative;">
+              <input
+                type="password"
+                class="form-control"
+                id="reset-security-pin-input"
+                placeholder="••••"
+                required
+                autocomplete="off"
+                style="letter-spacing: 4px; font-size: 18px; text-align: center; font-weight: 900;"
+              />
+            </div>
+            <small style="display: block; margin-top: 6px; font-size: 11px; color: var(--text-muted);">
+              يتم التحقق ومطابقة الرمز السري مع قاعدة البيانات المركزية السحابية لمنع التصفير العشوائي.
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer" style="background: #FAFAFA;">
+          <button type="button" class="btn btn-secondary" onclick="App.closeAllModals()">إلغاء الأمر</button>
+          <button type="submit" class="btn btn-danger" style="background: #DC2626; color: white;">
+            <i class="fa-solid fa-trash-can"></i>
+            تأكيد التصفير النهائي
+          </button>
         </div>
       </form>
     </div>
