@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>محسوب — لوحة التحكم السحابية والتراخيص | شركة المدار للحلول البرمجية</title>
+  
+  <!-- Meta Information -->
+  <meta name="description" content="منصة الإدارة والترخيص السحابية المركزية لتطبيق محسوب - المدار للحلول البرمجية (Almadar Tech Solutions).">
+  <link rel="icon" type="image/png" href="assets/images/mahsoob_logo.png">
+
+  <!-- Google Fonts: Changa & IBM Plex Sans Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Changa:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Core Dashboard Stylesheet -->
+  <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- ======================================================================
+         SIDEBAR NAVIGATION (RIGHT-ALIGNED RTL)
+         ====================================================================== -->
+    <aside class="sidebar">
+      <!-- Header / Logo -->
+      <div class="sidebar-header">
+        <div class="brand-icon-box">
+          <img src="assets/images/mahsoob_logo.png" alt="محسوب">
+        </div>
+        <div class="sidebar-brand-text">
+          <span class="brand-title">محسوب — SaaS</span>
+          <span class="brand-subtitle">منظومة الإدارة والترخيص</span>
+          <span class="sidebar-corp-pill">
+            <i class="fa-solid fa-code"></i> المدار للحلول البرمجية
+          </span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">إدارة المنظومة</div>
+        
+        <a class="nav-link active" data-view="overview">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>لوحة المؤشرات (Overview)</span>
+        </a>
+
+        <a class="nav-link" data-view="tenants">
+          <i class="fa-solid fa-utensils"></i>
+          <span>دليل المطاعم والتراخيص</span>
+          <span class="nav-badge" id="nav-tenants-count">0</span>
+        </a>
+
+        <a class="nav-link" data-view="features">
+          <i class="fa-solid fa-sliders"></i>
+          <span>مصفوفة ميزات التطبيق</span>
+        </a>
+
+        <div class="nav-section-title">العمليات والأمان</div>
+
+        <a class="nav-link" data-view="billing">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+          <span>الاشتراكات والفوترة</span>
+        </a>
+
+        <a class="nav-link" data-view="remote">
+          <i class="fa-solid fa-power-off"></i>
+          <span>مركز الإيقاف الفوري (Kill-Switch)</span>
+        </a>
+
+        <a class="nav-link" data-view="audit">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>سجل الرقابة والعمليات</span>
+        </a>
+      </nav>
+
+      <!-- Footer / Company Attribution -->
+      <div class="sidebar-footer">
+        <div class="company-attribution">
+          <img src="assets/images/almadar_logo.png" alt="المدار" class="company-logo-img">
+          <div class="company-info">
+            <h5>المدار للحلول البرمجية</h5>
+            <p>البصرة، العراق • SaaS Control Plane v2.0</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======================================================================
+         MAIN APPLICATION AREA
+         ====================================================================== -->
+    <div class="main-wrapper">
+      
+      <!-- Top Navigation Bar -->
+      <header class="topbar">
+        <div class="topbar-right">
+          <button class="btn-action-icon d-lg-none" id="mobile-menu-btn" title="القائمة">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="topbar-title-group">
+            <h1 id="page-title">لوحة التحكم المركزية (Overview)</h1>
+            <p id="page-subtitle">نظرة شاملة على المطاعم المتعاقدة، التراخيص النشطة، وحالة النظام</p>
+          </div>
+        </div>
+
+        <div class="topbar-left">
+          <!-- Live System Status Pill -->
+          <div class="system-status-pill">
+            <span class="pulse-dot"></span>
+            <span>النظام متصل</span>
+            <span style="color: var(--text-muted); font-size: 11px;">•</span>
+            <span id="live-clock" style="font-family: monospace; font-size: 11.5px; font-weight: 800;">--:--:--</span>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <button class="btn btn-secondary btn-sm" onclick="App.clearAllData()" title="تصفير وحذف كافة البيانات وإعادة الضبط">
+            <i class="fa-solid fa-rotate-left"></i>
+            تصفير النظام
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="App.openAddTenantModal()">
+            <i class="fa-solid fa-plus"></i>
+            إضافة مطعم
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content Dynamic View -->
+      <main class="content-body" id="main-content-body">
+        <!-- Rendered dynamically by views.js & app.js -->
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 1: ADD NEW RESTAURANT / TENANT
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-add-tenant">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-utensils" style="color: var(--primary); margin-left: 8px;"></i> ترخيص وإضافة مطعم جديد</h3>
+        <button class="modal-close-btn" onclick="App.closeAllModals()">&times;</button>
+      </div>
+      <form id="form-add-tenant" onsubmit="App.submitAddTenant(event)">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">اسم المطعم التجاري *</label>
+              <input type="text" class="form-control" id="new-tenant-name" placeholder="مثال: مطعم شواية الرافدين" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">المدينة / المحافظة *</label>
+              <select class="form-control" id="new-tenant-city">
+                <option value="البصرة">البصرة</option>
+                <option value="بغداد">بغداد</option>
+                <option value="أربيل">أربيل</option>
+                <option value="النجف">النجف</option>
+                <option value="كربلاء">كربلاء</option>
+                <option value="السليمانية">السليمانية</option>
+                <option value="الموصل">الموصل</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">اسم المالك / المدير المسؤول *</label>
+              <input type="text" class="form-control" id="new-tenant-owner" placeholder="مثال: حسام علي" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">رقم الهاتف للتواصل *</label>
+              <input type="text" class="form-control" id="new-tenant-phone" placeholder="مثال: +964 780 000 0000" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">نوع دورة الاشتراك</label>
+              <select class="form-control" id="new-tenant-subtype">
+                <option value="سنوي">سنوي (الخيار الموصى به)</option>
+                <option value="شهري">شهري</option>
+                <option value="تجريبي (14 يوم)">فترة تجريبية مجانية</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">رسوم الاشتراك (بالدينار العراقي IQD)</label>
+              <input type="number" class="form-control" id="new-tenant-fee" value="1800000" step="50000">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">اسم الفرع الأول الافتراضي</label>
+            <input type="text" class="form-control" id="new-tenant-first-branch" value="الفرع الرئيسي">
+          </div>
+
+          <div style="background: #F0FDF4; padding: 12px 16px; border-radius: var(--radius-md); border: 1px dashed var(--primary-border); font-size: 12px; color: var(--text-secondary);">
+            <i class="fa-solid fa-circle-info" style="color: var(--primary);"></i>
+            <strong>ملاحظة ترخيصية:</strong> يتم توليد كود ترخيص مشفر ورمز QR خاص بالمطعم فور الحفظ لربطه بتطبيق محسوب الجوال.
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeAllModals()">إلغاء</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-check"></i>
+            حفظ وتوليد الترخيص
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 2: VIEW LICENSE KEY & QR CODE MODAL
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-license-view">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-qrcode" style="color: var(--primary); margin-left: 8px;"></i> بطاقة ترخيص وربط تطبيق الجوال</h3>
+        <button class="modal-close-btn" onclick="App.closeAllModals()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="license-display-card">
+          <h2 id="license-modal-tenant-name" style="font-size: 20px; font-weight: 800; color: var(--navy); margin-bottom: 4px;"></h2>
+          <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 12px;">
+            المدينة: <strong id="license-modal-city"></strong> • الحالة: <strong id="license-modal-status" style="color: var(--primary);"></strong> • الصلاحية لغاية: <strong id="license-modal-expiry"></strong>
+          </p>
+
+          <!-- Generated QR Code Canvas Container -->
+          <div class="qr-code-canvas-wrap" id="license-qr-canvas-wrap"></div>
+
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">
+            امسح هذا الرمز بكاميرا تطبيق «محسوب» أو أدخل الكود النصي لتفعيل التطبيق فورياً:
+          </p>
+
+          <div class="license-key-box">
+            <span id="license-modal-key-text"></span>
+            <button class="btn-action-icon" style="background: white;" title="نسخ الكود" onclick="App.copyText(document.getElementById('license-modal-key-text').textContent)">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="window.print()">
+          <i class="fa-solid fa-print"></i> طباعة وثيقة الترخيص
+        </button>
+        <button type="button" class="btn btn-primary" onclick="App.closeAllModals()">
+          إغلاق
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 3: ADD STAFF MEMBER & PIN
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-add-staff">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-user-plus" style="color: var(--primary); margin-left: 8px;"></i> إضافة موظف وتعيين PIN للمطعم</h3>
+        <button class="modal-close-btn" onclick="App.closeAllModals()">&times;</button>
+      </div>
+      <form id="form-add-staff" onsubmit="App.submitAddStaff(event)">
+        <div class="modal-body">
+          <div style="background: #F1F5F9; padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 16px; font-size: 12.5px;">
+            المطعم المحدد: <strong id="staff-tenant-name" style="color: var(--primary);"></strong>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">اسم الموظف *</label>
+              <input type="text" class="form-control" id="staff-name-input" placeholder="مثال: علي مرتضى أو كاشير الصالة 1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">الدور الوظيفي في التطبيق *</label>
+              <select class="form-control" id="staff-role-select">
+                <option value="كاشير الصالة">كاشير الصالة</option>
+                <option value="كاشير السفري">كاشير السفري</option>
+                <option value="مسؤول المشتريات والتسوق">مسؤول المشتريات والتسوق</option>
+                <option value="مشرف شفت ميداني">مشرف شفت ميداني</option>
+                <option value="أمين المستودع والمخزن">أمين المستودع والمخزن</option>
+                <option value="رئيس طهاة / شيف">رئيس طهاة / شيف</option>
+                <option value="المالك / المدير العام">المالك / المدير العام</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">رمز الدخول السريع (PIN) * (4 أرقام)</label>
+              <input type="text" class="form-control" id="staff-pin-input" placeholder="مثال: 1234" maxlength="6" required style="font-family: monospace; font-size: 16px; letter-spacing: 2px;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">الفرع المخصص</label>
+              <select class="form-control" id="staff-branch-select"></select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">رقم هاتف الموظف (اختياري)</label>
+            <input type="text" class="form-control" id="staff-phone-input" placeholder="مثال: 07801234567">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeAllModals()">إلغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ الموظف</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 4: RECORD PAYMENT MODAL
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-record-payment">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-receipt" style="color: var(--primary); margin-left: 8px;"></i> تسجيل دفعة وتجديد اشتراك لشركة المدار</h3>
+        <button class="modal-close-btn" onclick="App.closeAllModals()">&times;</button>
+      </div>
+      <form id="form-record-payment" onsubmit="App.submitRecordPayment(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">المطعم العميل *</label>
+            <select class="form-control" id="payment-tenant-select"></select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">المبلغ المستلم بالدينار العراقي (IQD) *</label>
+              <input type="number" class="form-control" id="payment-amount-input" value="1800000" step="10000" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">فترة الاشتراك المسددة *</label>
+              <input type="text" class="form-control" id="payment-period-input" value="اشتراك سنوي (2026 - 2027)" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeAllModals()">إلغاء</button>
+          <button type="submit" class="btn btn-primary">توثيق الدفعة وتمديد الترخيص</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 5: ADD RAW MATERIAL & COST (المواد الأولية)
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-add-material">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-boxes-stacked" style="color: var(--primary); margin-left: 8px;"></i> إضافة مادة أولية وتكلفة تأسيس قياسية</h3>
+        <button class="modal-close-btn" onclick="App.closeAllModals()">&times;</button>
+      </div>
+      <form id="form-add-material" onsubmit="App.submitAddMaterial(event)">
+        <div class="modal-body">
+          <input type="hidden" id="material-edit-id" value="">
+          <div style="background: #F1F5F9; padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 16px; font-size: 12.5px;">
+            المطعم المحدد: <strong id="material-tenant-name" style="color: var(--primary);"></strong>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">اسم المادة الأولية *</label>
+              <input type="text" class="form-control" id="material-name-input" placeholder="مثال: لحم غنم مفروم، صدر دجاج، رز عنبر" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">تصنيف المادة *</label>
+              <select class="form-control" id="material-category-input">
+                <option value="لحوم ودواجن">لحوم ودواجن</option>
+                <option value="حبوب وبقالة">حبوب وبقالة (رز، طحين، سكر)</option>
+                <option value="خضروات وفواكه">خضروات وفواكه</option>
+                <option value="زيوت ودهون">زيوت ودهون</option>
+                <option value="ألبان وأجبان">ألبان وأجبان</option>
+                <option value="بهارات وتوابل">بهارات وتوابل</option>
+                <option value="تعبئة وتغليف">تعبئة وتغليف وسفري</option>
+                <option value="مشروبات وعصائر">مشروبات ومواد باردة</option>
+                <option value="أخرى">أخرى</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">وحدة القياس المعتمدة (في العراق) *</label>
+              <select class="form-control" id="material-unit-input" required>
+                <option value="كغم">كغم (كيلوغرام)</option>
+                <option value="غرام">غرام (غم)</option>
+                <option value="لتر">لتر</option>
+                <option value="مل">مل (مليلتر)</option>
+                <option value="كيس">كيس / جونية (طحين، رز، سكر)</option>
+                <option value="كارتون">كارتون (صندوق)</option>
+                <option value="طبقة">طبقة (طبقة بيض)</option>
+                <option value="سطل">سطل (روبة، معجون، زيت)</option>
+                <option value="قطعة">قطعة / حبة</option>
+                <option value="باقة">باقة (خضار، كرفس، نعناع)</option>
+                <option value="قوطية">قوطية (علبة معدنية)</option>
+                <option value="بطل">بطل (زجاجة / قنينة)</option>
+                <option value="تنكة">تنكة (دهن حر / زيت)</option>
+                <option value="باكيت">باكيت (علبة)</option>
+                <option value="درزن">درزن (12 قطعة)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">سعر الشراء القياسي بالدينار (IQD) *</label>
+              <input type="number" class="form-control" id="material-cost-input" placeholder="مثال: 18000" step="250" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">المورد أو السوق المعتاد (اختياري)</label>
+              <input type="text" class="form-control" id="material-supplier-input" placeholder="مثال: علوة الخضار، جملة العشار">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ملاحظات اقتصادية / جودة (اختياري)</label>
+              <input type="text" class="form-control" id="material-notes-input" placeholder="مثال: نسبة الدهن 20%، استهلاك يومي">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeAllModals()">إلغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ المادة الأولية</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 6: ADD MENU CATEGORY (أقسام المنيو)
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-add-category">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-layer-group" style="color: var(--primary); margin-left: 8px;"></i> إضافة قسم جديد للمنيو</h3>
+        <button class="modal-close-btn" onclick="App.closeAllModals()">&times;</button>
+      </div>
+      <form id="form-add-category" onsubmit="App.submitAddCategory(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">اسم القسم *</label>
+            <input type="text" class="form-control" id="category-name-input" placeholder="مثال: المشاوي، السندويشات، المشروبات، الطبخ العربي" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">أيقونة القسم التعبيرية</label>
+            <select class="form-control" id="category-icon-input">
+              <option value="fa-fire">🔥 نار ومشاوي (fa-fire)</option>
+              <option value="fa-burger">🍔 برجر وسندويش (fa-burger)</option>
+              <option value="fa-bowl-rice">🍚 رز وطبخ عراقي (fa-bowl-rice)</option>
+              <option value="fa-utensils">🍴 وجبات وأطباق رئيسية (fa-utensils)</option>
+              <option value="fa-pizza-slice">🍕 بيتزا ومعجنات (fa-pizza-slice)</option>
+              <option value="fa-carrot">🥗 مقبلات وسلطات (fa-carrot)</option>
+              <option value="fa-glass-water">🥤 مشروبات وعصائر (fa-glass-water)</option>
+              <option value="fa-ice-cream">🍨 حلويات (fa-ice-cream)</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeAllModals()">إلغاء</button>
+          <button type="submit" class="btn btn-primary">إضافة القسم</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL 7: ADD / EDIT MENU DISH (قائمة الأكلات وأسعار البيع)
+       ====================================================================== -->
+  <div class="modal-overlay" id="modal-add-dish">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-utensils" style="color: var(--primary); margin-left: 8px;"></i> إضافة وجبة جديدة للمنيو</h3>
+        <button class="modal-close-btn" onclick="App.closeAllModals()">&times;</button>
+      </div>
+      <form id="form-add-dish" onsubmit="App.submitAddDish(event)">
+        <div class="modal-body">
+          <input type="hidden" id="dish-edit-id" value="">
+          <div style="background: #F1F5F9; padding: 10px 14px; border-radius: var(--radius-sm); margin-bottom: 16px; font-size: 12.5px;">
+            المطعم المحدد: <strong id="dish-tenant-name" style="color: var(--primary);"></strong>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">اسم الأكلة / الوجبة *</label>
+              <input type="text" class="form-control" id="dish-name-input" placeholder="مثال: نفر كباب مشكل، برجر لحم دبل، دجاج شواية" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">قسم المنيو التابع له *</label>
+              <select class="form-control" id="dish-category-select" required></select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">سعر البيع للزبون بالدينار (IQD) *</label>
+              <input type="number" class="form-control" id="dish-price-input" placeholder="مثال: 14000" step="250" required oninput="App.calcDishMarginPreview()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">التكلفة التقديرية للوجبة بالدينار (Food Cost) *</label>
+              <input type="number" class="form-control" id="dish-cost-input" placeholder="مثال: 6000" step="250" required oninput="App.calcDishMarginPreview()">
+            </div>
+          </div>
+
+          <!-- Dynamic Profit Margin Preview -->
+          <div id="dish-margin-preview-box" style="background: #F8FAFC; border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 10px 14px; margin-bottom: 16px; font-size: 12.5px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: var(--text-secondary);">هامش الربح المتوقع للوجبة:</span>
+            <span id="dish-margin-preview-val" style="font-weight: 700; color: var(--primary);">0 د.ع (0%)</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">المكونات الأساسية للوجبة (مفيدة لدقة الذكاء الاصطناعي)</label>
+            <input type="text" class="form-control" id="dish-ingredients-input" placeholder="مثال: 250 غم لحم غنم، خبز، طماطم، بصل، سماق، مقبلات">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeAllModals()">إلغاء</button>
+          <button type="submit" class="btn btn-primary">حفظ الوجبة في المنيو</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Supabase JS Client & Core Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase_client.js"></script>
+  <script src="assets/js/qrcode.min.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/views.js"></script>
+  <script src="assets/js/app.js"></script>
+
+</body>
+</html>
